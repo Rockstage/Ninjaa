@@ -1,0 +1,68 @@
+<%= content_for :heading_left do %>
+  <li><%= link_to "Job Board", jobs_path %></li>
+<% end %>
+
+<div class="container" id="sign_up">
+	<h2 class="text-center">Sign up</h2>
+
+	<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+
+	  <div role="form" class="form-signin">
+
+	    <h4 class="text-center">Chose your path</h4>
+	    <div class="form-group">
+	        <%= f.input :role, label: 'Are you a Sensei (Job giver)?', inline_label: 'Yes', as: :radio_buttons %>
+	    </div>
+	    <hr />
+
+	  	<div class="form-group">
+	  		<%= f.input :profile_name, :autofocus => true, input_html: { class: 'form-control' }, placeholder: 'ninjaa name' %>
+		</div>
+		<div class="form-group">
+		    <%= f.input :email, :required => true, :autofocus => true, input_html: { class: 'form-control' }, placeholder: 'you@example.com' %>
+		</div>
+		<div class="form-group">
+			
+			<%= f.input :birthday, as: :date, start_year: Date.today.year - 12,
+                           end_year: Date.today.year - 90, order: [:day, :month, :year], input_html: {  } %>
+           
+	       
+		</div>
+	    <div class="form-group">
+		    <%= f.input :password, :required => true, input_html: { class: 'form-control' } %>
+		</div>
+	    <div class="form-group">
+		    <%= f.input :password_confirmation, :required => true, input_html: { class: 'form-control' } %>
+		</div>
+		<div class="form-actions">
+		    <%= f.button :submit, "Become a Ninjaa!", class: 'btn btn-primary btn-large btn-block' %>
+		</div>
+		<hr />
+		<%= render "devise/shared/links" %>
+	  </div>
+
+	<% end %>
+
+</div>
+
+
+
+<% if false %>
+
+	 <script type="text/javascript">
+ $(function() {
+   $('#datepicker').datepicker({
+   dateFormat: 'dd-mm-yy',
+   inline: true,
+   onSelect: function(dateText, inst) { 
+       var date = $(this).datepicker('getDate'),
+           day  = date.getDate(),  
+           month = date.getMonth() + 1,              
+           year =  date.getFullYear();
+       alert(day + '-' + month + '-' + year);
+   }
+});
+ });
+ </script>
+
+<% end %>

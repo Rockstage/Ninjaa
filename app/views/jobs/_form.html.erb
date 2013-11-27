@@ -1,0 +1,22 @@
+<%= simple_form_for(@job, input_html: { class: 'form-horizontal' }) do |f| %>
+  <%= f.input :title, input_html: { class: 'form-control' } %>
+  <%= f.input :description, input_html: { rows: 3, class: 'form-control' } %>
+  <%= f.input :cash, input_html: { class: 'form-control' } %>
+  <br />
+  <p>Coordinates of your current location:</p>
+  <%= f.text_field :lat__c, id: 'facility_Lat__c' %>
+  <%= f.text_field :long__c, id: 'facility_Long__c' %>
+  <hr />
+  <br />
+    <%= f.button :submit, class: 'btn btn-primary' %> | <%= link_to 'Back', jobs_path, class: 'btn btn-default' %>
+  
+<% end %>
+
+<script type="text/javascript">
+	navigator.geolocation.getCurrentPosition (function (pos)
+	{
+		$("#facility_Lat__c").val(pos.coords.latitude);
+		$("#facility_Long__c").val(pos.coords.longitude);
+	});
+</script>
+

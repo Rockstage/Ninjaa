@@ -1,0 +1,35 @@
+<%= content_for :heading_left do %>
+  <li><%= link_to "Job Board", jobs_path %></li>
+  <li><%= link_to "Post Job", new_job_path %></li>
+  <li><%= link_to "Something", "#" %></li>
+  <li class="divider"><a href="#"></a></li>
+  <li class="active"><%= link_to truncate(@job.title, :length => 30), "#" %></li>
+<% end %>
+
+
+
+<div class="container center-box">
+	<h1 class="text-center"><%= @job.title %></h1>
+	<hr />
+	<h3>Description:</h3>
+	<p class="lead"><%= @job.description %></p>
+	<br />
+	<h3>Cash: $<%=@job.cash %></h3>
+	<h3>By: <%= @job.user.profile_name %></h3>
+
+	<% if @job.lat__c && @job.long__c %>
+		<img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= @job.lat__c %>,<%= @job.long__c %>&zoom=14&size=400x300&maptype=roadmap&markers=color:blue%7Clabel:N%7C<%= @job.lat__c %>,<%= @job.long__c %>&sensor=true">
+
+
+		<br />
+		<a href="https://maps.google.com/maps?q=<%= @job.lat__c %>,<%= @job.long__c %>" target="_blank">Open in Google Maps</a>
+	<% end %>
+
+	  <%= link_to 'Edit', edit_job_path(@job) %> |
+	  <%= link_to 'Destroy', @job, method: :delete, data: { confirm: 'Are you sure?' } %>
+	
+	<%= link_to 'Back', jobs_path %>
+
+
+
+</div>

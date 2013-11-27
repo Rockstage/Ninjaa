@@ -1,0 +1,18 @@
+<%= content_for :heading_left do %>
+  <li><%= link_to "Job Board", jobs_path %></li>
+  <li><%= link_to "Post Job", new_job_path %></li>
+  <li><%= link_to "Something", "#" %></li>
+  <li class="divider"><a href="#"></a></li>
+  <li class="active"><%= link_to truncate(@job.title, :length => 30), "#" %></li>
+<% end %>
+
+<div class="container">
+<h1>Editing job</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', @job %> |
+<%= link_to 'Back', jobs_path %>
+
+
+</div>

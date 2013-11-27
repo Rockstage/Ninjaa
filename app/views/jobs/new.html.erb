@@ -1,0 +1,12 @@
+<%= content_for :heading_left do %>
+  <li><%= link_to "Job Board", jobs_path %></li>
+  <li class="active"><%= link_to "Post Job", new_job_path %></li>
+  <li><%= link_to "Something", "#" %></li>
+<% end %>
+
+<div class="container">
+	<h1>New job</h1>
+
+	<%= render 'form' %>
+
+</div>

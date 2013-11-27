@@ -1,0 +1,128 @@
+<%= content_for :heading_left do %>
+  <li class="active"><%= link_to "Job Board", jobs_path %></li>
+  <li><%= link_to "Post Job", new_job_path %></li>
+  <li><%= link_to "Favour-for-favour", "#" %></li>
+<% end %>
+
+    <script src="http://maps.google.com/maps/api/js?sensor=false" 
+          type="text/javascript"></script>
+
+<%= content_for :heading_right do %>
+
+<% end %>
+
+
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="text-center">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+          <span class="map-accordion">Local Job Offers! <span class="glyphicon glyphicon-map-marker"></span></span>
+      </h4>
+    </div>
+    </a>
+    <div id="collapseOne" class="panel-collapse collapsing">
+      <div class="panel-body">
+        <div id="map" style="width: 100%; height: 250px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<h1>Listing jobs <%= link_to 'New Job', new_job_path, class: 'btn btn-primary' %></h1>
+<br />
+
+<div class="row">
+  <% @jobs.each do |job| %>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <h3><%= truncate(job.title, :length => 50) %></h3>
+        <% if job.lat__c && job.long__c %>
+          <img src="http://maps.googleapis.com/maps/api/staticmap?center=<%= job.lat__c %>,<%= job.long__c %>&zoom=13&size=800x120&maptype=roadmap&markers=color:blue%7Clabel:N%7C<%= job.lat__c %>,<%= job.long__c %>&sensor=true">
+        <% end %>
+        <div class="caption">
+          
+          <p><%= truncate(job.description, :length => 250) %></p>
+          <p>Price: <strong><%= job.cash %></strong></p>
+          <p>By: <%= job.user.profile_name %><span class="gray"> - Rating 4/5</span></p>
+          <p><%= link_to "Show", job, class: 'btn btn-success' %> | <a href="#" class="btn btn-default" role="button">Social Share</a></p>
+          
+          <% if @user == current_user %> 
+              <%= link_to 'Edit', edit_job_path(job) %> |
+              <%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+  
+  
+  
+  
+
+  <hr />
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+    var coords = new google.maps.LatLng(latitude, longitude);
+    var mapOptions = {
+        zoom: 13,
+        center: coords,
+        mapTypeControl: true,
+        navigationControlOptions: {
+            style: google.maps.NavigationControlStyle.SMALL
+        },
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(
+            document.getElementById("map"), mapOptions
+            );
+        
+        var locations = [
+          <% @jobs.each do |job| %>
+            ['<%= link_to job.title, job %> - <%= '&#36;'.html_safe %><%= job.cash %>', <%= job.lat__c %>,<%= job.long__c %>],
+          <% end %>
+        ];
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+        }
+
+    });
+}else {
+    alert("Geolocation API is not supported in your browser.");
+}
+</script>
+
+</div>
